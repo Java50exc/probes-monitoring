@@ -96,5 +96,6 @@
 
 	<modules>
 		<module>analyzer</module>
+		<module>sensor-range-provider</module>
 	</modules>
 </project>
