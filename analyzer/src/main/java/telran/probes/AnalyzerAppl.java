@@ -8,7 +8,9 @@ import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 
 import lombok.RequiredArgsConstructor;
+import telran.probes.dto.DeviationData;
 import telran.probes.dto.ProbeData;
+import telran.probes.dto.Range;
 import telran.probes.service.RangeProviderClientService;
 
 @SpringBootApplication
@@ -16,25 +18,31 @@ import telran.probes.service.RangeProviderClientService;
 public class AnalyzerAppl {
 	final StreamBridge streamBridge;
 	final RangeProviderClientService clientService;
-	
+
 	String producerBindingName = "analyzerProducer-out-0";
 
-	
-	
 	public static void main(String[] args) {
 		SpringApplication.run(AnalyzerAppl.class, args);
 	}
-	
+
 	@Bean
 	Consumer<ProbeData> analyzerConsumer() {
-		return this::probeDataAnalyzing;
-		//return probeData -> probeDataAnalyzing(probeData);
+		return probeData -> probeDataAnalyzing(probeData);
 	}
-	
+
 	private void probeDataAnalyzing(ProbeData probeData) {
-		//in the case probeData value doesn't fall into a range received from 
-		//RangeProviderClientService, creates a proper Deviation and 
-		//streamBridge.send(producerBindingName, deviation);
+		Range range = clientService.getRange(probeData.id());
+		double probeValue = probeData.value();
+
+		double deviationValue = probeValue < range.minValue() ? probeValue - range.minValue()
+				: probeValue > range.maxValue() ? probeValue - range.maxValue() : 0;
+
+		if (deviationValue != 0) {
+			DeviationData deviation = new DeviationData(probeData.id(), deviationValue, probeValue,
+					probeData.timestamp());
+			streamBridge.send(producerBindingName, deviation);
+		}
+
 	}
 
 }

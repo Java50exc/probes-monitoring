@@ -55,12 +55,6 @@ class AnalyzerControllerTest {
 	OutputDestination consumer;
 	ObjectMapper mapper = new ObjectMapper();
 	
-
-
-	@Test
-	void loadApplicationContext() {
-		assertNotNull(clientService);
-	}
 	
 	@BeforeEach
 	void setUp() {
@@ -69,14 +63,14 @@ class AnalyzerControllerTest {
 	}
 	
 	@Test
-	void noDeviationTest() {
+	void probeDataAnalyzing_noDeviation_success() {
 		producer.send(new GenericMessage<ProbeData>(probeNormalData), consumerBindingName);
 		Message<byte[]> message = consumer.receive(100, producerBindingName);
 		assertNull(message);
 	}
 	
 	@Test
-	void greaterMaxDeviationTest() throws Exception {
+	void probeDataAnalyzing_greaterThanMax_positiveDeviation() throws Exception {
 		producer.send(new GenericMessage<ProbeData>(probeGreaterMaxData), consumerBindingName);
 		Message<byte[]> message = consumer.receive(100, producerBindingName);
 		assertNotNull(message);
@@ -86,7 +80,7 @@ class AnalyzerControllerTest {
 	}
 	
 	@Test
-	void lessMinDeviationTest() throws Exception {
+	void probeDataAnalyzing_lessThanMin_negativeDeviation() throws Exception {
 		producer.send(new GenericMessage<ProbeData>(probeLessMinData), consumerBindingName);
 		Message<byte[]> message = consumer.receive(100, producerBindingName);
 		assertNotNull(message);
