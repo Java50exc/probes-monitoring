@@ -1,7 +1,6 @@
 package telran.probes;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -16,68 +15,19 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import static telran.probes.UrlConstants.*;
+import static telran.probes.TestDb.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import telran.probes.dto.*;
 import telran.probes.exceptions.*;
 import telran.probes.service.AdminConsoleService;
 
 @WebMvcTest
 public class AdminConsoleControllerTests {
-
-	public record RangeWrongMinValue(String minValue, double maxValue) {
-	}
-
-	public record RangeWrong(double min, double maxValue) {
-	}
-
-	public record SensorRangeWrongId(String id, Range range) {
-	}
-
-	public record SensorEmailsWrongId(String id, String[] mails) {
-	}
-
-	public record SensorRangeWrongRange(long id, RangeWrongMinValue range) {
-	}
-
-	public record SensorRangeWrongRangeType(long id, RangeWrong range) {
-	}
-	
-	private static final String PATH = "http://localhost:8080/";
-
-	private static final long ID = 123;
-	private static final Double MIN_VALUE = 100d;
-	private static final Double MAX_VALUE = 200d;
-	private static final String EMAIL1 = "email1@gmail.com";
-	private static final String EMAIL2 = "email2@gmail.com";
-	private static final String[] EMAILS = { EMAIL1, EMAIL2 };
-	private static final Range RANGE = new Range(MIN_VALUE, MAX_VALUE);
-	private static final SensorRange SENSOR_RANGE = new SensorRange(ID, RANGE);
-	private static final SensorEmails SENSOR_EMAILS = new SensorEmails(ID, EMAILS);
-
-	private static final RangeWrongMinValue RANGE_WRONG_MIN = new RangeWrongMinValue("kkk", MAX_VALUE);
-	private static final SensorRangeWrongId SENSOR_RANGE_WRONG_ID = new SensorRangeWrongId("kkk", RANGE);
-	private static final SensorRangeWrongRange SENSOR_RANGE_WRONG_RANGE = new SensorRangeWrongRange(ID,
-			RANGE_WRONG_MIN);
-
-	private static final SensorEmailsWrongId SENSOR_EMAILS_WRONG_ID = new SensorEmailsWrongId("kkk", EMAILS);
-	private static final SensorEmails SENSOR_EMAILS_EMPTY = new SensorEmails(ID, new String[] {});
-	
-	private static final Range RANGE_MISSING_ALL_FIELDS = new Range(null, null);
-	private static final SensorRange SENSOR_RANGE_MISSING_ALL_FIELDS = new SensorRange(null, null);
-	private static final SensorRange SENSOR_RANGE_MISSING_RANGE = new SensorRange(ID, RANGE_MISSING_ALL_FIELDS);
-	private static final SensorEmails SENSOR_EMAILS_MISSING_ALL_FIELDS = new SensorEmails(null, null);
-	
-	private static final String[] RANGE_MISSING_MESSAGES = {MISSING_MIN_VALUE, MISSING_MAX_VALUE};
-	private static final String[] SENSOR_RANGE_MISSING_MESSAGES = {MISSING_SENSOR_ID, MISSING_RANGE};
-	private static final String[] EMAILS_MISSING_MESSAGES = {MISSING_SENSOR_ID, MISSING_EMAILS};
-
 	@MockBean
 	AdminConsoleService adminConsoleService;
 	@Autowired
 	MockMvc mockMvc;
 	@Autowired
 	ObjectMapper mapper;
-
 
 	@Test
 	void addSensorRange_correctFlow_success() throws Exception {
@@ -87,7 +37,7 @@ public class AdminConsoleControllerTests {
 
 	@Test
 	void addSensorEmails_correctFlow_success() throws Exception {
-		when(adminConsoleService.addSensorEmails(any())).thenReturn(SENSOR_EMAILS);
+		when(adminConsoleService.addSensorEmails(SENSOR_EMAILS)).thenReturn(SENSOR_EMAILS);
 		testValidation(SENSOR_EMAILS, mapper.writeValueAsString(SENSOR_EMAILS), post(PATH + EMAILS_PATH), status().isOk());
 	}
 
