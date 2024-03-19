@@ -17,7 +17,7 @@ public class SensorRangeProviderController {
 	Range getSensorRange(@PathVariable("sensorId") long sensorId) {
 		
 		Range range = rangeProviderService.getSensorRange(sensorId);
-		log.debug("SensorRangeProviderController: getSensorRange: received range {} for id {}", range, sensorId);
+		log.debug("SensorRangeProviderController: received range {} for id {}", range, sensorId);
 		return range;
 		
 	}
