@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import telran.probes.exceptions.SensorEmailsNotFoundException;
 import telran.probes.repo.SensorEmailsProviderRepo;
 import telran.probes.service.SensorEmailsProviderService;
 
@@ -30,7 +31,7 @@ public class SensorEmailsProviderServiceTests {
 	
 	@Test
 	void getSensorEmails_emailsNotExists_throwsException() {
-		assertThrowsExactly(IllegalStateException.class, () -> sensorEmailsProviderService.getSensorEmails(TestDb.ID_NOT_EXISTS));
+		assertThrowsExactly(SensorEmailsNotFoundException.class, () -> sensorEmailsProviderService.getSensorEmails(TestDb.ID_NOT_EXISTS));
 	}
 
 }

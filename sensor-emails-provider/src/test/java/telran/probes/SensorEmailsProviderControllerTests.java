@@ -14,7 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import telran.probes.exceptions.SensorEmailsNotFoundException;
 import telran.probes.service.SensorEmailsProviderService;
+import static telran.probes.messages.ErrorMessages.*;
 
 @WebMvcTest
 class SensorEmailsProviderControllerTests {
@@ -31,6 +33,13 @@ class SensorEmailsProviderControllerTests {
 		String expectedJson = mapper.writeValueAsString(TestDb.EMAILS);
 		String response = mockMvc.perform(get(TestDb.URL_PATH + EMAILS_PATH + TestDb.ID)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 		assertEquals(expectedJson, response);
+	}
+	
+	@Test 
+	void getSensorEmails_idNotExists_throwsException() throws Exception {
+		when(sensorEmailsProviderService.getSensorEmails(TestDb.ID_NOT_EXISTS)).thenThrow(new SensorEmailsNotFoundException());
+		String response = mockMvc.perform(get(TestDb.URL_PATH + EMAILS_PATH + TestDb.ID_NOT_EXISTS)).andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
+		assertEquals(MISSING_EMAILS, response);
 	}
 	
 

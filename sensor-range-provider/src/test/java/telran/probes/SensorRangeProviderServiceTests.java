@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import telran.probes.exceptions.SensorRangeNotFoundException;
 import telran.probes.repo.SensorRangeProviderRepo;
 import telran.probes.service.SensorRangeProviderService;
 
@@ -30,7 +32,7 @@ class SensorRangeProviderServiceTests {
 	
 	@Test
 	void getSensorRange_idNotExists_throwsException() {
-		assertThrowsExactly(IllegalStateException.class, () -> sensorRangeProviderService.getSensorRange(TestDb.ID_NOT_EXISTS));
+		assertThrowsExactly(SensorRangeNotFoundException.class, () -> sensorRangeProviderService.getSensorRange(TestDb.ID_NOT_EXISTS));
 	}
 
 }
