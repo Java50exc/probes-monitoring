@@ -18,13 +18,6 @@ import telran.probes.service.SensorEmailsProviderService;
 
 @WebMvcTest
 class SensorEmailsProviderControllerTests {
-	private static final String URL_PATH = "http://localhost:8080/";
-	
-	private static final long ID = 123;
-	private static final String EMAIL1 = "email1@gmail.com";
-	private static final String EMAIL2 = "email2@gmail.com";
-	private static final String[] EMAILS = {EMAIL1, EMAIL2};
-	
 	@MockBean
 	SensorEmailsProviderService sensorEmailsProviderService;
 	@Autowired
@@ -34,9 +27,9 @@ class SensorEmailsProviderControllerTests {
 	
 	@Test
 	void getSensorEmails_correctFlow_success() throws Exception {
-		when(sensorEmailsProviderService.getSensorEmails(ID)).thenReturn(EMAILS);
-		String expectedJson = mapper.writeValueAsString(EMAILS);
-		String response = mockMvc.perform(get(URL_PATH + EMAILS_PATH + ID)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		when(sensorEmailsProviderService.getSensorEmails(TestDb.ID)).thenReturn(TestDb.EMAILS);
+		String expectedJson = mapper.writeValueAsString(TestDb.EMAILS);
+		String response = mockMvc.perform(get(TestDb.URL_PATH + EMAILS_PATH + TestDb.ID)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 		assertEquals(expectedJson, response);
 	}
 	
