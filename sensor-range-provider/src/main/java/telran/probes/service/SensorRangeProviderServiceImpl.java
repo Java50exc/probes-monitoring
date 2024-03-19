@@ -16,6 +16,7 @@ public class SensorRangeProviderServiceImpl implements SensorRangeProviderServic
 
 	@Override
 	public Range getSensorRange(long sensorId) {
+		//FIXME add proper exception
 		RangeDoc rangeDoc = sensorRangeProviderRepo.findById(sensorId).orElseThrow(() -> new IllegalStateException("Range not found"));
 		log.debug("found range {} for id {}", rangeDoc, sensorId);
 		return rangeDoc.getRange();
