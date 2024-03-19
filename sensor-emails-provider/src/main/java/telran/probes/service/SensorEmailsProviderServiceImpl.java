@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import telran.probes.exceptions.SensorEmailsNotFoundException;
 import telran.probes.model.SensorEmailsDoc;
 import telran.probes.repo.SensorEmailsProviderRepo;
 
@@ -15,8 +16,7 @@ public class SensorEmailsProviderServiceImpl implements SensorEmailsProviderServ
 
 	@Override
 	public String[] getSensorEmails(long sensorId) {
-		//FIXME to add a proper exception and update tests
-		SensorEmailsDoc emailsDoc = sensorEmailsProviderRepo.findById(sensorId).orElseThrow(IllegalStateException::new);
+		SensorEmailsDoc emailsDoc = sensorEmailsProviderRepo.findById(sensorId).orElseThrow(SensorEmailsNotFoundException::new);
 		log.debug("SensorEmailsProviderService: received mails {} for id {}", emailsDoc.getEmails(), sensorId);
 		return emailsDoc.getEmails();
 	}

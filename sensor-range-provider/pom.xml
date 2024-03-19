@@ -9,6 +9,7 @@
 	</parent>
 	<artifactId>sensor-range-provider</artifactId>
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -25,5 +26,13 @@
 			<version>4.11.0</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>telran.exceptions</groupId>
+			<artifactId>web-exceptions</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+
+
 	</dependencies>
 </project>
