@@ -16,8 +16,8 @@ public class TestDb {
 	
 	static final long ID = 123;
 	static final long ID_NOT_EXISTS = 124;
-	static final long MIN_VALUE = 100;
-	static final long MAX_VALUE = 200;
+	static final Double MIN_VALUE = 100d;
+	static final Double MAX_VALUE = 200d;
 	static final Range RANGE = new Range(MIN_VALUE, MAX_VALUE);
 	
 	static final RangeDoc RANGE_DOC = new RangeDoc(ID, RANGE);
