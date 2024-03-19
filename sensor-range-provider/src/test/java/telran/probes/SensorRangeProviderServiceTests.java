@@ -6,8 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import telran.probes.dto.Range;
-import telran.probes.model.RangeDoc;
 import telran.probes.repo.SensorRangeProviderRepo;
 import telran.probes.service.SensorRangeProviderService;
 
@@ -17,28 +15,22 @@ class SensorRangeProviderServiceTests {
 	SensorRangeProviderService sensorRangeProviderService;
 	@Autowired
 	SensorRangeProviderRepo sensorRangeProviderRepo;
-	
-	private final long ID_EXISTS = 123;
-	private final long ID_NOT_EXISTS = 124;
-	private final double MIN_VALUE = 100;
-	private final double MAX_VALUE = 200;
-	private final Range RANGE = new Range(MIN_VALUE, MAX_VALUE);
-	private final RangeDoc RANGE_DOC = new RangeDoc(ID_EXISTS, RANGE);
+	@Autowired
+	TestDb testDb;
 	
 	@BeforeEach
 	void setUp() {
-		sensorRangeProviderRepo.deleteAll();
-		sensorRangeProviderRepo.insert(RANGE_DOC);
+		testDb.createDb();
 	}
 	
 	@Test
 	void getSensorRange_correctFlow_success() {
-		assertEquals(RANGE, sensorRangeProviderService.getSensorRange(ID_EXISTS));
+		assertEquals(TestDb.RANGE, sensorRangeProviderService.getSensorRange(TestDb.ID));
 	}
 	
 	@Test
 	void getSensorRange_idNotExists_throwsException() {
-		assertThrowsExactly(IllegalStateException.class, () -> sensorRangeProviderService.getSensorRange(ID_NOT_EXISTS));
+		assertThrowsExactly(IllegalStateException.class, () -> sensorRangeProviderService.getSensorRange(TestDb.ID_NOT_EXISTS));
 	}
 
 }
