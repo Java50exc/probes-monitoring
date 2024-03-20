@@ -5,16 +5,10 @@ import java.util.function.Consumer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-
 import lombok.RequiredArgsConstructor;
-import telran.probes.dto.DeviationData;
-import telran.probes.dto.ProbeData;
-import telran.probes.dto.Range;
-import telran.probes.dto.SensorUpdateData;
+import telran.probes.dto.*;
 import telran.probes.service.RangeProviderClientService;
-import telran.probes.service.RangeProviderClientServiceImpl;
 
 @SpringBootApplication
 @RequiredArgsConstructor
