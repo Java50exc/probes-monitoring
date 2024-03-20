@@ -100,5 +100,6 @@
 		<module>sensor-emails-provider</module>
 		<module>avg-populator</module>
 		<module>admin-console</module>
+		<module>email-notifier</module>
 	</modules>
 </project>
