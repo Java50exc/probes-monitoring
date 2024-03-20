@@ -10,17 +10,13 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import telran.probes.dto.ProbeData;
 import telran.probes.model.ProbesList;
 import telran.probes.repo.ProbesListRepo;
 import telran.probes.service.AvgReducerService;
+import static telran.probes.TestsConstants.*;
 
 @SpringBootTest
 class AvgReducerServiceTests {
-	private static final Double VALUE = 100.0;
-	private static final long SENSOR_ID = 123;
-	private ProbeData probeData = new ProbeData(SENSOR_ID, VALUE, 0);
-	
 	@Autowired
 	AvgReducerService reducerService;
 	@MockBean
@@ -51,17 +47,17 @@ class AvgReducerServiceTests {
 
 	@Test
 	void getAvgValue_correctFlow_success() {
-		Double res = reducerService.getAvgValue(probeData);
-		assertNull(res);
-		res = reducerService.getAvgValue(probeData);
-		assertNotNull(res);
-		assertEquals(VALUE, res);
+		Double avgValue = reducerService.getAvgValue(PROBE_DATA);
+		assertNull(avgValue);
+		avgValue = reducerService.getAvgValue(PROBE_DATA);
+		assertNotNull(avgValue);
+		assertEquals(VALUE, avgValue);
 		
-		res = reducerService.getAvgValue(probeData);
-		assertNull(res);
-		res = reducerService.getAvgValue(probeData);
-		assertNotNull(res);
-		assertEquals(VALUE, res);
+		avgValue = reducerService.getAvgValue(PROBE_DATA);
+		assertNull(avgValue);
+		avgValue = reducerService.getAvgValue(PROBE_DATA);
+		assertNotNull(avgValue);
+		assertEquals(VALUE, avgValue);
 	}
 
 }
