@@ -50,7 +50,7 @@ class AvgReducerServiceTests {
 	}
 
 	@Test
-	void test() {
+	void getAvgValue_correctFlow_success() {
 		Double res = reducerService.getAvgValue(probeData);
 		assertNull(res);
 		res = reducerService.getAvgValue(probeData);
