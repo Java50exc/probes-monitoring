@@ -2,7 +2,7 @@ package telran.probes;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-
+import static telran.probes.TestsConstants.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,32 +16,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import telran.probes.dto.DeviationData;
 import telran.probes.dto.ProbeData;
-import telran.probes.dto.Range;
 import telran.probes.service.RangeProviderClientService;
 
 @SpringBootTest
 @Import(TestChannelBinderConfiguration.class)
 class AnalyzerControllerTest {
-	private static final long SENSOR_ID = 123;
-
-	private static final double VALUE_NORMAL = 150;
-	private static final double VALUE_LESS_MIN = 50;
-	private static final double VALUE_GREATER_MAX = 220;
-	
-	private static final double MIN_VALUE = 100;
-	private static final double MAX_VALUE = 200;
-	private static final Range RANGE = new Range(MIN_VALUE, MAX_VALUE);
-
-	private static final Double DEVIATION_LESS_MIN = VALUE_LESS_MIN - MIN_VALUE;
-	private static final Double DEVIATION_GREATER_MAX = VALUE_GREATER_MAX - MAX_VALUE;
-	
-	private ProbeData probeNormalData = new ProbeData(SENSOR_ID, VALUE_NORMAL, System.currentTimeMillis());
-	private ProbeData probeGreaterMaxData = new ProbeData(SENSOR_ID, VALUE_GREATER_MAX, System.currentTimeMillis());
-	private ProbeData probeLessMinData = new ProbeData(SENSOR_ID, VALUE_LESS_MIN, System.currentTimeMillis());
-	
-	private String consumerBindingName = "analyzerConsumer-in-0";
-	private String producerBindingName = "analyzerProducer-out-0";
-	
 	@MockBean
 	RangeProviderClientService clientService;
 	@Autowired
@@ -49,21 +28,19 @@ class AnalyzerControllerTest {
 	@Autowired
 	OutputDestination consumer;
 	ObjectMapper mapper = new ObjectMapper();
-	
-	
+
 	@BeforeEach
 	void setUp() {
 		when(clientService.getRange(SENSOR_ID)).thenReturn(RANGE);
-
 	}
-	
+
 	@Test
 	void probeDataAnalyzing_noDeviation_success() {
 		producer.send(new GenericMessage<ProbeData>(probeNormalData), consumerBindingName);
 		Message<byte[]> message = consumer.receive(100, producerBindingName);
 		assertNull(message);
 	}
-	
+
 	@Test
 	void probeDataAnalyzing_greaterThanMax_positiveDeviation() throws Exception {
 		producer.send(new GenericMessage<ProbeData>(probeGreaterMaxData), consumerBindingName);
@@ -73,7 +50,7 @@ class AnalyzerControllerTest {
 		assertEquals(SENSOR_ID, deviationData.id());
 		assertEquals(DEVIATION_GREATER_MAX, deviationData.deviation());
 	}
-	
+
 	@Test
 	void probeDataAnalyzing_lessThanMin_negativeDeviation() throws Exception {
 		producer.send(new GenericMessage<ProbeData>(probeLessMinData), consumerBindingName);
