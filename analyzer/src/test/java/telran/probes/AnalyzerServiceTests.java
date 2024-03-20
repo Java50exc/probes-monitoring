@@ -31,7 +31,7 @@ class AnalyzerServiceTests {
 
 	@Test
 	@Order(1)
-	void normalFlowNoCache() {
+	void getRange_noCache_sendsRequest() {
 		ResponseEntity<Range> reponseEntity = new ResponseEntity<>(RANGE, HttpStatus.OK);
 		when(restTemplate.exchange(getUrl(SENSOR_ID), HttpMethod.GET, null, Range.class)).thenReturn(reponseEntity);
 		assertEquals(RANGE, providerService.getRange(SENSOR_ID));
@@ -40,7 +40,7 @@ class AnalyzerServiceTests {
 	@SuppressWarnings("unchecked")
 	@Test
 	@Order(2)
-	void normalFlowWithCache() {
+	void getRange_withCache_returnsCache() {
 		when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(), any(Class.class)))
 				.thenAnswer(new Answer<ResponseEntity<?>>() {
 
@@ -55,7 +55,7 @@ class AnalyzerServiceTests {
 
 	@Test
 	@Order(3)
-	void sensorNotFoundTest() {
+	void getRange_sensorNotFound_defaultRange() {
 		ResponseEntity<String> reponseEntity = new ResponseEntity<>(SENSOR_NOT_FOUND_MESSAGE, HttpStatus.NOT_FOUND);
 		when(restTemplate.exchange(getUrl(SENSOR_ID_NOT_FOUND), HttpMethod.GET, null, String.class))
 				.thenReturn(reponseEntity);
@@ -64,7 +64,7 @@ class AnalyzerServiceTests {
 
 	@Test
 	@Order(4)
-	void defaultRangeNotInCache() {
+	void getRange_requestAfterSendingDefault_defaultNotInCache() {
 		ResponseEntity<Range> reponseEntity = new ResponseEntity<>(RANGE, HttpStatus.OK);
 		when(restTemplate.exchange(getUrl(SENSOR_ID_NOT_FOUND), HttpMethod.GET, null, Range.class))
 				.thenReturn(reponseEntity);
@@ -73,7 +73,7 @@ class AnalyzerServiceTests {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	void remoteWebServiceUnavalilable() {
+	void getRange_remoteServiceUnavailable_defaultRange() {
 		when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(), any(Class.class)))
 				.thenThrow(new IllegalStateException("Service is unavailable"));
 
@@ -81,7 +81,7 @@ class AnalyzerServiceTests {
 	}
 
 	@Test
-	void updateRangeSensorInMap() throws Exception {
+	void updateRange_gotMessageFromBroker_rangeInCacheUpdated() throws Exception {
 		producer.send(new GenericMessage<SensorUpdateData>(new SensorUpdateData(SENSOR_ID, RANGE_UPDATED, null)),
 				updateBindingName);
 		Thread.sleep(100);

@@ -13,9 +13,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.GenericMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import telran.probes.dto.DeviationData;
-import telran.probes.dto.ProbeData;
+import telran.probes.dto.*;
 import telran.probes.service.RangeProviderClientService;
 
 @SpringBootTest
