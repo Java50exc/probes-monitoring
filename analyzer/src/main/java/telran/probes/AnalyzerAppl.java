@@ -5,19 +5,23 @@ import java.util.function.Consumer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import lombok.RequiredArgsConstructor;
 import telran.probes.dto.DeviationData;
 import telran.probes.dto.ProbeData;
 import telran.probes.dto.Range;
+import telran.probes.dto.SensorUpdateData;
 import telran.probes.service.RangeProviderClientService;
+import telran.probes.service.RangeProviderClientServiceImpl;
 
 @SpringBootApplication
 @RequiredArgsConstructor
 public class AnalyzerAppl {
 	final StreamBridge streamBridge;
 	final RangeProviderClientService clientService;
+	
 
 	String producerBindingName = "analyzerProducer-out-0";
 
@@ -42,7 +46,17 @@ public class AnalyzerAppl {
 					probeData.timestamp());
 			streamBridge.send(producerBindingName, deviation);
 		}
+	}
+	
+	@Bean
+	Consumer<SensorUpdateData> updateRangeConsumer() {
+		return updateData -> updateProcessing(updateData);
+	}
 
+	private void updateProcessing(SensorUpdateData updateData) {
+		if (updateData.range() != null) {
+			clientService.updateCache(updateData.id(), updateData.range());
+		}
 	}
 
 }
