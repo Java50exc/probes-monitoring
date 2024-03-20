@@ -1,5 +1,7 @@
 package telran.probes.service;
 
+import java.util.HashMap;
+
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,13 +13,27 @@ import telran.probes.dto.*;
 @RequiredArgsConstructor
 @Slf4j
 public class RangeProviderClientServiceImpl implements RangeProviderClientService {
+	HashMap<Long, Range> cache = new HashMap<>();
 	final RestTemplate restTemplate;
 	final ServiceConfiguration serviceConfiguration;
 
 	@Override
 	public Range getRange(long sensorId) {
-		// TODO Auto-generated method stub
-		return null;
+		Range res = cache.get(sensorId);
+		
+		if (res == null) {
+			res = serviceRequest(sensorId);
+			
+			if (!res.equals(new Range(MIN_DEFAULT_VALUE, MAX_DEFAULT_VALUE))) {
+				cache.put(sensorId, res);
+			}
+		}
+		return res;
+	}
+	
+	@Override
+	public Range updateCache(long id, Range range) {
+		return cache.put(id, range);
 	}
 	
 	private Range serviceRequest(long sensorId) {
@@ -25,7 +41,6 @@ public class RangeProviderClientServiceImpl implements RangeProviderClientServic
 		
 		try {
 			ResponseEntity<?> responseEntity = restTemplate.exchange(getUrl(sensorId), HttpMethod.GET, null, Range.class);
-
 			if (responseEntity.getStatusCode().is4xxClientError()) {
 				throw new Exception(responseEntity.getBody().toString());
 			}
@@ -48,5 +63,7 @@ public class RangeProviderClientServiceImpl implements RangeProviderClientServic
 		log.debug("url created is {}", url);
 		return url;
 	}
+	
+
 
 }

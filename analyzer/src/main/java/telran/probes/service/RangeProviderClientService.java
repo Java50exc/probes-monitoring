@@ -7,5 +7,6 @@ public interface RangeProviderClientService {
 	Double MAX_DEFAULT_VALUE = 100d;
 
 	Range getRange(long sensorId);
+	Range updateCache(long id, Range range);
 
 }
