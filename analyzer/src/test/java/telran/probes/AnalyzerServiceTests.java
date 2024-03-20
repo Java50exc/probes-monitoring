@@ -33,7 +33,7 @@ class AnalyzerServiceTests {
 	private static final long SENSOR_ID_UNAVAILABLE = 170;
 	private static final Range RANGE_UPDATED = new Range(MIN_VALUE + 10, MAX_VALUE + 10);
 	
-	private String updateBindingName = "updateRangeConsumer";
+	private String updateBindingName = "updateRangeConsumer-in-0";
 	
 	@Autowired
 	InputDestination producer;
@@ -87,7 +87,7 @@ class AnalyzerServiceTests {
 	@Test
 	void remoteWebServiceUnavalilable() {
 		when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(), any(Class.class)))
-		.thenThrow(new Exception("Service is unavailable"));
+		.thenThrow(new IllegalStateException("Service is unavailable"));
 		
 		assertEquals(RANGE_DEFAULT, providerService.getRange(SENSOR_ID_UNAVAILABLE));
 	}
