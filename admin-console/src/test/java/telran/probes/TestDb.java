@@ -16,9 +16,6 @@ public class TestDb {
 	public record RangeWrongMinValue(String minValue, double maxValue) {
 	}
 
-	public record RangeWrong(double min, double maxValue) {
-	}
-
 	public record SensorRangeWrongId(String id, Range range) {
 	}
 
@@ -26,9 +23,6 @@ public class TestDb {
 	}
 
 	public record SensorRangeWrongRange(long id, RangeWrongMinValue range) {
-	}
-
-	public record SensorRangeWrongRangeType(long id, RangeWrong range) {
 	}
 	
 	static final String PATH = "http://localhost:8080/";
@@ -83,6 +77,11 @@ public class TestDb {
 		mongoTemplate.remove(new Query(), EMAIL_COLLECTION);
 		mongoTemplate.insert(RANGE_DOC, RANGE_COLLECTION);
 		mongoTemplate.insert(EMAILS_DOC, EMAIL_COLLECTION);
+	}
+	
+	public <T> T findById(Object id, Class<T> entity, String collection) {
+		return mongoTemplate.findById(id, entity, collection);
+		
 	}
 
 }
