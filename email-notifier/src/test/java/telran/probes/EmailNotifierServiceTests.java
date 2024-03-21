@@ -7,8 +7,7 @@ import static telran.probes.TestsConstants.*;
 import org.junit.jupiter.api.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.stream.binder.test.*;
@@ -18,7 +17,6 @@ import org.springframework.messaging.support.GenericMessage;
 import org.springframework.web.client.RestTemplate;
 import telran.probes.dto.SensorUpdateData;
 import telran.probes.service.EmailsProviderClientService;
-import telran.probes.service.ServiceConfiguration;
 
 @SpringBootTest
 @Import(TestChannelBinderConfiguration.class)
