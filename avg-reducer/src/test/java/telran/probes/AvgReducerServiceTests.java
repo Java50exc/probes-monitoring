@@ -30,8 +30,7 @@ class AvgReducerServiceTests {
 			@Override
 			public Optional<ProbesList> answer(InvocationOnMock invocation) throws Throwable {
 				Long sensorId = invocation.getArgument(0);
-				ProbesList probesList = redisMockMap.get(sensorId);
-				return probesList == null ? Optional.empty() : Optional.of(probesList);
+				return Optional.ofNullable(redisMockMap.get(sensorId));
 			}
 		});
 		
