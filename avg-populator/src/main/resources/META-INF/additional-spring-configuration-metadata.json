@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "app.avg.populator.consumer.binding.name",
+  "type": "java.lang.String",
+  "description": "A description for 'app.avg.populator.consumer.binding.name'"
+}]}

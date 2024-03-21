@@ -9,6 +9,7 @@ import org.junit.jupiter.api.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.stream.binder.test.*;
@@ -28,6 +29,8 @@ class AnalyzerServiceTests {
 	RangeProviderClientService providerService;
 	@MockBean
 	RestTemplate restTemplate;
+	@Value("${app.update.range.consumer.binding.name}")
+	String updateBindingName;
 
 	@Test
 	@Order(1)

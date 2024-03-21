@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.stream.binder.test.InputDestination;
 import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
@@ -19,7 +20,8 @@ import telran.probes.repo.AvgPopulatorRepo;
 @Import(TestChannelBinderConfiguration.class)
 public class AvgPopulatorTests {
 	
-	private String consumerBindingName = "avgPopulatorConsumer-in-0";
+	@Value("${app.avg.populator.consumer.binding.name}")
+	private String consumerBindingName;
 	
 	private static final long ID = 123;
 	private static final long TIMESTAMP = System.currentTimeMillis();

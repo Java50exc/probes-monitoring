@@ -2,6 +2,7 @@ package telran.probes;
 
 import java.util.function.Consumer;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -16,8 +17,8 @@ public class AnalyzerAppl {
 	final StreamBridge streamBridge;
 	final RangeProviderClientService clientService;
 	
-
-	String producerBindingName = "analyzerProducer-out-0";
+	@Value("${app.analyzer.producer.binding.name}")
+	String producerBindingName;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AnalyzerAppl.class, args);

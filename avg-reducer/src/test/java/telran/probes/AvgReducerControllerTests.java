@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.stream.binder.test.*;
@@ -25,6 +26,11 @@ class AvgReducerControllerTests {
 	OutputDestination consumer;
 	@MockBean
 	AvgReducerService reducerService;
+	@Value("${app.avg.reducer.consumer.binding.name}")
+	String consumerBindingName;
+	@Value("${app.avg.reducer.producer.binding.name}")
+	String producerBindingName;
+	
 	ObjectMapper mapper = new ObjectMapper();
 	
 

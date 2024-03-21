@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.stream.binder.test.*;
@@ -34,8 +35,6 @@ class EmailNotifierControllerTests {
 	private static final String MAIL1 = "test@gmail.com";
 	private static final String MAIL2 = "test@uk.co.il";
 	
-	private String consumerBindingName = "emailNotifierConsumer-in-0";
-
 	@Autowired
 	InputDestination producer;
 	@MockBean
@@ -43,6 +42,8 @@ class EmailNotifierControllerTests {
 	@RegisterExtension
 	static GreenMailExtension mailExtention = new GreenMailExtension(ServerSetupTest.SMTP)
 			.withConfiguration(GreenMailConfiguration.aConfig().withUser("user", "12345.com"));
+	@Value("${app.email.notifier.consumer.binding.name}")
+	String consumerBindingName;
 
 	DeviationData deviationData = new DeviationData(SENSOR_ID, DEVIATION, VALUE, System.currentTimeMillis());
 	String[] emails = { MAIL1, MAIL2 };

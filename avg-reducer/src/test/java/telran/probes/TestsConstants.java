@@ -7,6 +7,4 @@ public interface TestsConstants {
 	long SENSOR_ID = 123;
 	ProbeData PROBE_DATA = new ProbeData(SENSOR_ID, VALUE, 0);
 	
-	String consumerBindingName = "avgReducerConsumer-in-0";
-	String producerBindingName = "avgReducerProducer-out-0";
 }

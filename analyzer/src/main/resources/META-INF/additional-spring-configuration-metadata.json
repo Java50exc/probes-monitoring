@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "app.analyzer.producer.binding.name",
+    "type": "java.lang.String",
+    "description": "A description for 'app.analyzer.producer.binding.name'"
+  },
+  {
+    "name": "app.analyzer.consumer.binding.name",
+    "type": "java.lang.String",
+    "description": "A description for 'app.analyzer.consumer.binding.name'"
+  },
+  {
+    "name": "app.update.range.consumer.binding.name",
+    "type": "java.lang.String",
+    "description": "A description for 'app.update.range.consumer.binding.name'"
+  },
+  {
+    "name": "app.range.provider.host",
+    "type": "java.lang.String",
+    "description": "A description for 'app.range.provider.host'"
+  },
+  {
+    "name": "app.range.provider.port",
+    "type": "java.lang.String",
+    "description": "A description for 'app.range.provider.port'"
+  },
+  {
+    "name": "app.range.provider.path",
+    "type": "java.lang.String",
+    "description": "A description for 'app.range.provider.path'"
+  }
+]}

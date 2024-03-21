@@ -2,6 +2,7 @@ package telran.probes;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.stream.binder.test.*;
 import org.springframework.context.annotation.Import;
@@ -25,8 +26,8 @@ public class AdminConsoleServiceTests {
 	OutputDestination consumer;
 	@Autowired
 	ObjectMapper mapper;
-
-	private String producerBindingName = "adminConsole-out-0";
+	@Value("${app.admin.console.producer.binding.name}")
+	String producerBindingName;
 
 	@BeforeEach
 	void setUp() {

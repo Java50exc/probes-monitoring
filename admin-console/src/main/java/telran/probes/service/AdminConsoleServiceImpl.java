@@ -1,5 +1,6 @@
 package telran.probes.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -19,7 +20,8 @@ public class AdminConsoleServiceImpl implements AdminConsoleService {
 	final MongoTemplate mongoTemplate;
 	final StreamBridge streamBridge;
 
-	String producerBindingName = "adminConsole-out-0";
+	@Value("${app.admin.console.producer.binding.name}")
+	String producerBindingName;
 	static final String RANGE_COLLECTION = "ranges";
 	static final String EMAIL_COLLECTION = "emails";
 

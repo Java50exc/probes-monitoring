@@ -7,9 +7,7 @@ public interface TestsConstants {
 	String URL = "http://localhost:8282/range/sensor/";
 	String SENSOR_NOT_FOUND_MESSAGE = "Sensor not found";
 	
-	String consumerBindingName = "analyzerConsumer-in-0";
-	String producerBindingName = "analyzerProducer-out-0";
-	String updateBindingName = "updateRangeConsumer-in-0";
+
 	
 	long SENSOR_ID = 123;
 	long SENSOR_ID_NOT_FOUND = 124;

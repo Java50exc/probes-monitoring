@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "app.email.notifier.consumer.binding.name",
+    "type": "java.lang.String",
+    "description": "A description for 'app.email.notifier.consumer.binding.name'"
+  },
+  {
+    "name": "app.update.emails.consumer.binding.name",
+    "type": "java.lang.String",
+    "description": "A description for 'app.update.emails.consumer.binding.name'"
+  },
+  {
+    "name": "app.emails.provider.host",
+    "type": "java.lang.String",
+    "description": "A description for 'app.emails.provider.host'"
+  },
+  {
+    "name": "app.emails.provider.port",
+    "type": "java.lang.String",
+    "description": "A description for 'app.emails.provider.port'"
+  },
+  {
+    "name": "app.emails.provider.path",
+    "type": "java.lang.String",
+    "description": "A description for 'app.emails.provider.path'"
+  }
+]}

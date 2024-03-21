@@ -6,8 +6,6 @@ public interface TestsConstants {
 	String URL = "http://localhost:8383/emails/sensor/";
 	String SENSOR_NOT_FOUND_MESSAGE = "Sensor not found";
 	
-	String updateBindingName = "updateEmailsConsumer-in-0";
-	
 	long SENSOR_ID = 123;
 	long SENSOR_ID_NOT_FOUND = 124;
 	long SENSOR_ID_UNAVAILABLE = 170;
