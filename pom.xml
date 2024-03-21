@@ -102,5 +102,6 @@
 		<module>admin-console</module>
 		<module>email-notifier</module>
 		<module>avg-reducer</module>
+		<module>probes</module>
 	</modules>
 </project>

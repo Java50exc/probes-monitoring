@@ -1,0 +1,37 @@
+{"properties": [
+  {
+    "name": "app.probes.producer.binding.name",
+    "type": "java.lang.String",
+    "description": "A description for 'app.probes.producer.binding.name'"
+  },
+  {
+    "name": "app.probes.initial.random.sensor.id",
+    "type": "java.lang.String",
+    "description": "A description for 'app.probes.initial.random.sensor.id'"
+  },
+  {
+    "name": "app.probes.initial.random.min.range",
+    "type": "java.lang.String",
+    "description": "A description for 'app.probes.initial.random.min.range'"
+  },
+  {
+    "name": "app.probes.random.deviation.probability",
+    "type": "java.lang.String",
+    "description": "A description for 'app.probes.random.deviation.probability'"
+  },
+  {
+    "name": "app.probes.random.negative.probability",
+    "type": "java.lang.String",
+    "description": "A description for 'app.probes.random.negative.probability'"
+  },
+  {
+    "name": "app.probes.random.number.sensors",
+    "type": "java.lang.String",
+    "description": "A description for 'app.probes.random.number.sensors'"
+  },
+  {
+    "name": "app.probes.initial.random.max.range",
+    "type": "java.lang.String",
+    "description": "A description for 'app.probes.initial.random.max.range'"
+  }
+]}
