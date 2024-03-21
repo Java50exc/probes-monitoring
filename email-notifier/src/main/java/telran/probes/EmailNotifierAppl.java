@@ -72,7 +72,7 @@ public class EmailNotifierAppl {
 
 
 	private String getText(DeviationData deviation) {
-		String text = String.format("sensor %d has value %.2f with deviation %.2f at %s",
+		String text = String.format("sensor %d has value %f with deviation %f at %s",
 				deviation.id(), deviation.value(), deviation.deviation(), getDateTime(deviation.timestamp()));
 		return text;
 	}
