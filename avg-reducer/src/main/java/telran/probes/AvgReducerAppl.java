@@ -2,6 +2,7 @@ package telran.probes;
 
 import java.util.function.Consumer;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -17,7 +18,8 @@ public class AvgReducerAppl {
 	final StreamBridge streamBridge;
 	final AvgReducerService reducerService;
 	
-	String producerBindingName = "avgReducerProducer-out-0";
+	@Value("${app.avg.reducer.producer.binding.name}")
+	String producerBindingName;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(AvgReducerAppl.class, args);

@@ -13,7 +13,7 @@ import telran.probes.service.ProbesService;
 @SpringBootApplication
 @RequiredArgsConstructor
 public class ProbesAppl {
-	private static int TIMEOUT = 10000;
+	private static int TIMEOUT = 11000;
 	
 	final ProbesService probesService;
 	
