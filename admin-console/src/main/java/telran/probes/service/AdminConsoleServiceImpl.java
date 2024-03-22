@@ -4,6 +4,7 @@ import static telran.probes.messages.ErrorMessages.*;
 
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.*;
@@ -19,6 +20,7 @@ import telran.probes.model.*;
 @Slf4j
 public class AdminConsoleServiceImpl implements AdminConsoleService {
 	final MongoTemplate mongoTemplate;
+	final StreamBridge streamBridge;
 
 	@Value("${app.admin.console.producer.binding.name}")
 	String producerBindingName;
@@ -68,6 +70,8 @@ public class AdminConsoleServiceImpl implements AdminConsoleService {
 			log.error("Range for sensor with id {} not found", id);
 			throw new SensorRangeNotFoundException();
 		}
+		streamBridge.send(producerBindingName, new SensorUpdateData(id, sensorRange.range(), null));
+		log.debug("Range {} for sensor with id {} has been updated", sensorRange.range(), id);
 		return sensorRange;
 	}
 
@@ -82,6 +86,8 @@ public class AdminConsoleServiceImpl implements AdminConsoleService {
 			log.error("Emails for sensor with id {} not found", id);
 			throw new SensorEmailsNotFoundException();
 		}
+		streamBridge.send(producerBindingName, new SensorUpdateData(id, null, sensorEmails.mails()));
+		log.debug("Emails {} for sensor with id {} has been updated", sensorEmails.mails(), id);
 		return sensorEmails;
 	}
 	
