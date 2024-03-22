@@ -13,6 +13,7 @@ public class SensorEmailsProviderController {
 	final SensorEmailsProviderService sensorEmailsProviderService;
 	
 	@GetMapping(EMAILS_PATH + "{sensorId}")
+	//FIXME app.emails.provider.url
 	String[] getSensorEmails(@PathVariable("sensorId") long sensorId) {
 		String[] emails = sensorEmailsProviderService.getSensorEmails(sensorId);
 		log.debug("SensorEmailsProviderController: received emails {} for id {}", emails, sensorId);
