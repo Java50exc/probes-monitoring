@@ -29,6 +29,7 @@ public class AdminConsoleServiceTests {
 	@Value("${app.admin.console.producer.binding.name}")
 	String producerBindingName;
 
+
 	@BeforeEach
 	void setUp() {
 		testDb.createDb();

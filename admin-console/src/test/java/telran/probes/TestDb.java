@@ -1,6 +1,8 @@
 package telran.probes;
 
 import static telran.probes.messages.ErrorMessages.*;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -26,8 +28,11 @@ public class TestDb {
 	}
 	
 	static final String PATH = "http://localhost:8080/";
-	static final String RANGE_COLLECTION = "ranges";
-	static final String EMAIL_COLLECTION = "emails";
+	
+	@Value("${app.sensor.ranges.collection.name}")
+	static String RANGE_COLLECTION;
+	@Value("${app.sensor.emails.collection.name}")
+	static String EMAIL_COLLECTION;
 	
 	static final long ID = 123;
 	static final long ID_NOT_EXISTS = 124;

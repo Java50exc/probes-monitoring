@@ -55,13 +55,13 @@ public class AdminConsoleControllerTests {
 
 	@Test
 	void addSensorRange_exceptionThrown_errorMessage() throws Exception {
-		when(adminConsoleService.addSensorRange(SENSOR_RANGE)).thenThrow(new SensorRangeIllegalStateException());
+		when(adminConsoleService.addSensorRange(SENSOR_RANGE)).thenThrow(new SensorRangeIllegalStateException(SENSOR_RANGE_ALREADY_EXISTS));
 		testValidation(SENSOR_RANGE, SENSOR_RANGE_ALREADY_EXISTS, post(PATH + SENSOR_RANGE_PATH), status().isBadRequest());
 	}
 
 	@Test
 	void addSensorEmails_exceptionThrown_errorMessage() throws Exception {
-		when(adminConsoleService.addSensorEmails(SENSOR_EMAILS)).thenThrow(new SensorEmailsIllegalStateException());
+		when(adminConsoleService.addSensorEmails(SENSOR_EMAILS)).thenThrow(new SensorEmailsIllegalStateException(SENSOR_EMAILS_ALREADY_EXISTS));
 		testValidation(SENSOR_EMAILS, SENSOR_EMAILS_ALREADY_EXISTS, post(PATH + EMAILS_PATH), status().isBadRequest());
 	}
 
