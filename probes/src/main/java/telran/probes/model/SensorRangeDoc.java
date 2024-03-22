@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.*;
 import telran.probes.dto.Range;
 
-@Document("sensor_ranges")
+@Document("ranges")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

@@ -55,7 +55,7 @@ class EmailNotifierControllerTests {
 		producer.send(new GenericMessage<DeviationData>(deviationData), consumerBindingName);
 		
 		MimeMessage[] messages = mailExtention.getReceivedMessages();
-		assertEquals(2, messages.length);;
+		assertEquals(2, messages.length);
 		MimeMessage message = messages[0];
 		Address[] recipients =  message.getAllRecipients();
 		assertEquals(emails.length, recipients.length);
