@@ -9,6 +9,10 @@ import lombok.Getter;
 @Configuration
 @Getter
 public class ServiceConfiguration {
+	@Value("${app.analyzer.min.default.range.value}")
+	double minDefaultValue;
+	@Value("${app.analyzer.max.default.range.value}")
+	double maxDefaultValue;
 	@Value("${app.range.provider.host}")
 	String host;
 	@Value("${app.range.provider.port}")

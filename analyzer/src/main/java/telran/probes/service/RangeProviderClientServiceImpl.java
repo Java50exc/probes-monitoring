@@ -15,7 +15,7 @@ public class RangeProviderClientServiceImpl implements RangeProviderClientServic
 	private HashMap<Long, Range> cache = new HashMap<>();
 	final RestTemplate restTemplate;
 	final ServiceConfiguration serviceConfiguration;
-
+	
 	@Override
 	public Range getRange(long sensorId) {
 		Range range;
@@ -28,7 +28,7 @@ public class RangeProviderClientServiceImpl implements RangeProviderClientServic
 			log.debug("received range value: {}", range);
 		} catch (Exception e) {
 			log.error("error at service request: {}", e.getMessage());
-			range = new Range(MIN_DEFAULT_VALUE, MAX_DEFAULT_VALUE);
+			range = new Range(serviceConfiguration.minDefaultValue, serviceConfiguration.maxDefaultValue);
 			log.warn("default range value: {}", range);
 		}
 		return range;
@@ -52,7 +52,7 @@ public class RangeProviderClientServiceImpl implements RangeProviderClientServic
 	}
 
 	private String getUrl(long sensorId) {
-		String url = String.format("http://%s:%d%s%d", serviceConfiguration.getHost(), serviceConfiguration.getPort(),
+		String url = String.format("http://%s:%d/%s/%d", serviceConfiguration.getHost(), serviceConfiguration.getPort(),
 				serviceConfiguration.getPath(), sensorId);
 		log.debug("url created is {}", url);
 		return url;

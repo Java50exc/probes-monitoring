@@ -24,8 +24,7 @@ public class AnalyzerAppl {
 		SpringApplication.run(AnalyzerAppl.class, args);
 	}
 
-	//two consumer beans requires list of consumer functions in application.properties
-	//spring.cloud.function.definition=analyzerConsumer;updateRangeConsumer
+
 	@Bean
 	Consumer<ProbeData> analyzerConsumer() {
 		return probeData -> probeDataAnalyzing(probeData);

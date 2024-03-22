@@ -15,6 +15,8 @@ public class ServiceConfiguration {
 	int port;
 	@Value("${app.emails.provider.path}")
 	String path;
+	@Value("${app.email.notifier.default.mail}")
+	String defaultEmail;
 	
 	@Bean
 	RestTemplate getRestTemplate() {
