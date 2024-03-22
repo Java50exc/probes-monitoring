@@ -9,12 +9,12 @@ import java.util.Arrays;
 import static telran.probes.exceptions.controller.WebExceptionsController.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import static telran.probes.UrlConstants.*;
 import static telran.probes.TestDb.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import telran.probes.exceptions.*;
@@ -28,6 +28,10 @@ public class AdminConsoleControllerTests {
 	MockMvc mockMvc;
 	@Autowired
 	ObjectMapper mapper;
+	@Value("${app.admin.console.range.url}")
+	String SENSOR_RANGE_PATH;
+	@Value("${app.admin.console.email.url}")
+	String EMAILS_PATH;
 
 	@Test
 	void addSensorRange_correctFlow_success() throws Exception {

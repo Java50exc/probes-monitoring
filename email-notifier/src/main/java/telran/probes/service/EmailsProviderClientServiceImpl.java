@@ -52,7 +52,7 @@ public class EmailsProviderClientServiceImpl implements EmailsProviderClientServ
 	}
 
 	private String getUrl(long sensorId) {
-		String url = String.format("http://%s:%d%s%d", serviceConfiguration.getHost(), serviceConfiguration.getPort(),
+		String url = String.format("http://%s:%d%s/%d", serviceConfiguration.getHost(), serviceConfiguration.getPort(),
 				serviceConfiguration.getPath(), sensorId);
 		log.debug("url created is {}", url);
 		return url;
