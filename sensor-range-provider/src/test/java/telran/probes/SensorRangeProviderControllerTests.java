@@ -32,14 +32,14 @@ class SensorRangeProviderControllerTests {
 	void getSensorRange_correctFlow_success() throws Exception {
 		when(sensorRangeProviderService.getSensorRange(TestDb.ID)).thenReturn(RANGE);
 		String expectedJson = mapper.writeValueAsString(RANGE);
-		String response = mockMvc.perform(get(URL_PATH + SENSOR_RANGE_PATH + ID)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		String response = mockMvc.perform(get(URL_PATH + SENSOR_RANGE_PATH + "/" + ID)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 		assertEquals(expectedJson, response);
 	}
 	
 	@Test
 	void getSensorRange_idNotExists_throwsException() throws Exception {
 		when(sensorRangeProviderService.getSensorRange(ID_NOT_EXISTS)).thenThrow(new SensorRangeNotFoundException());
-		String response = mockMvc.perform(get(URL_PATH + SENSOR_RANGE_PATH + ID_NOT_EXISTS)).andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
+		String response = mockMvc.perform(get(URL_PATH + SENSOR_RANGE_PATH + "/" + ID_NOT_EXISTS)).andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
 		assertEquals(MISSING_RANGE, response);
 	}
 	

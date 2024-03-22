@@ -31,14 +31,14 @@ class SensorEmailsProviderControllerTests {
 	void getSensorEmails_correctFlow_success() throws Exception {
 		when(sensorEmailsProviderService.getSensorEmails(TestDb.ID)).thenReturn(TestDb.EMAILS);
 		String expectedJson = mapper.writeValueAsString(TestDb.EMAILS);
-		String response = mockMvc.perform(get(TestDb.URL_PATH + EMAILS_PATH + TestDb.ID)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		String response = mockMvc.perform(get(TestDb.URL_PATH + EMAILS_PATH + "/" + TestDb.ID)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 		assertEquals(expectedJson, response);
 	}
 	
 	@Test 
 	void getSensorEmails_idNotExists_throwsException() throws Exception {
 		when(sensorEmailsProviderService.getSensorEmails(TestDb.ID_NOT_EXISTS)).thenThrow(new SensorEmailsNotFoundException());
-		String response = mockMvc.perform(get(TestDb.URL_PATH + EMAILS_PATH + TestDb.ID_NOT_EXISTS)).andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
+		String response = mockMvc.perform(get(TestDb.URL_PATH + EMAILS_PATH + "/" + TestDb.ID_NOT_EXISTS)).andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
 		assertEquals(MISSING_EMAILS, response);
 	}
 	
