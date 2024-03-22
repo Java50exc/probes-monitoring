@@ -24,6 +24,7 @@ public class ProbesServiceImpl implements ProbesService {
 
 	@Override
 	public ProbeData getProbeData() {
+		dbCaching();
 		int index = ThreadLocalRandom.current().nextInt(sensorIds.length);
 		long sensorId = sensorIds[index];
 
@@ -53,20 +54,35 @@ public class ProbesServiceImpl implements ProbesService {
 
 	@PostConstruct
 	private void dbPopulation() {
-		insertDoc(probesConfig.getNSensors(), probesConfig.getInitialSensorId(), probesConfig.getMinValue(), probesConfig.getMaxValue());
-		probesRepo.findAll().stream().forEach(e -> cache.put(e.getId(), e.getRange()));
-		sensorIds = cache.keySet().toArray(Long[]::new);
+		if (probesRepo.count() == 0) {
+			insertDoc(probesConfig.getNSensors(), probesConfig.getInitialSensorId(), probesConfig.getMinValue(), probesConfig.getMaxValue());
+		}
+	}
+	
+	private void dbCaching() {
+		if (cache.size() < probesRepo.count()) {
+			probesRepo.findAll().stream().forEach(e -> cache.put(e.getId(), e.getRange()));
+			sensorIds = cache.keySet().toArray(Long[]::new);
+		}
 	}
 	
 	private void insertDoc(int docsCount, long initId, double minValue, double maxValue) {
 		ThreadLocalRandom rand = ThreadLocalRandom.current();
 		if (docsCount > 0) {
 			insertDoc(docsCount - 1, initId + 10, minValue, maxValue);
-			Range range = new Range(rand.nextDouble(minValue, minValue + 50), rand.nextDouble(maxValue, maxValue + 50));
-			SensorRangeDoc doc = new SensorRangeDoc(rand.nextLong(initId, initId + 10), range);
+			SensorRangeDoc doc = new SensorRangeDoc(rand.nextLong(initId, initId + 10), getRandomRange(minValue, maxValue));
 			probesRepo.save(doc);
 			log.debug("sensor range {} with id {}, succesfully saved to db", doc.getRange(), doc.getId());
 		}
+	}
+	
+	private Range getRandomRange(double minValue, double maxValue) {
+		ThreadLocalRandom rand = ThreadLocalRandom.current();
+		double dif = maxValue - minValue;
+		double step = dif / 2 - dif / 10;
+		minValue -= rand.nextDouble(step) - rand.nextDouble(step);
+		maxValue -= rand.nextDouble(step) - rand.nextDouble(step);
+		return new Range(minValue, maxValue);	
 	}
 
 }
