@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import telran.probes.dto.Range;
 import telran.probes.service.SensorRangeProviderService;
-import static telran.probes.UrlConstants.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -13,7 +12,7 @@ import static telran.probes.UrlConstants.*;
 public class SensorRangeProviderController {
 	final SensorRangeProviderService rangeProviderService;
 		
-	@GetMapping(SENSOR_RANGE_PATH + "{sensorId}")
+	@GetMapping("${app.range.provider.url}" + "/{sensorId}")
 	Range getSensorRange(@PathVariable("sensorId") long sensorId) {
 		
 		Range range = rangeProviderService.getSensorRange(sensorId);
