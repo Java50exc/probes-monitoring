@@ -25,8 +25,9 @@ public class AvgReducerServiceImpl implements AvgReducerService {
 		
 		if (probesList == null || probesList.getValue() == null) {
 			probesList = new ProbesList(sensorId);
-			log.debug("either probesList is null or value of probesList is null");
+			log.debug("probesList is null");
 		}
+		log.debug("received probe data of sensor {} with value {}", probeData.id(), probeData.value());		
 		List<Double> listProbeValues = probesList.getValue();
 		listProbeValues.add(probeData.value());
 		

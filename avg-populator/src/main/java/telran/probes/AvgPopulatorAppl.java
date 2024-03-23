@@ -28,9 +28,8 @@ public class AvgPopulatorAppl {
 	}
 
 	private void probeDataPopulation(ProbeData probeData) {
-		log.debug("{}", probeData.id());
 		avgPopulatorRepo.save(new ProbeDataDoc(probeData));
-		
+		log.debug("avg probe data for sensor {} has been saved", probeData.id());
 	}
 
 }
