@@ -43,7 +43,7 @@ public class ProbesServiceImpl implements ProbesService {
 		if (rand.nextDouble() <= probesConfig.getDeviationProb()) {
 			value = rand.nextDouble() <= probesConfig.getLessProb() ? range.minValue() - rand.nextDouble(100)
 					: range.maxValue() + rand.nextDouble(100);
-			log.debug("creating probeData with deviation, value: {}", value);
+			log.warn("creating probeData with deviation, value: {}", value);
 		} else {
 			value = rand.nextDouble(range.minValue(), range.maxValue());
 			log.debug("creating normal probeData, value: {}", value);
