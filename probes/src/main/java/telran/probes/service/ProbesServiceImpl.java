@@ -54,8 +54,10 @@ public class ProbesServiceImpl implements ProbesService {
 
 	@PostConstruct
 	private void dbPopulation() {
-		if (probesRepo.count() == 0) {
-			insertDoc(probesConfig.getNSensors(), probesConfig.getInitialSensorId(), probesConfig.getMinValue(), probesConfig.getMaxValue());
+		long curCount = probesRepo.count();
+		if (curCount < probesConfig.getNSensors()) {
+			long initialId = probesRepo.findAll().stream().mapToLong(e -> e.getId()).max().orElse(probesConfig.getInitialSensorId());
+			insertDoc(probesConfig.getNSensors() - curCount, initialId + 1, probesConfig.getMinValue(), probesConfig.getMaxValue());
 		}
 	}
 	
@@ -66,7 +68,7 @@ public class ProbesServiceImpl implements ProbesService {
 		}
 	}
 	
-	private void insertDoc(int docsCount, long initId, double minValue, double maxValue) {
+	private void insertDoc(long docsCount, long initId, double minValue, double maxValue) {
 		ThreadLocalRandom rand = ThreadLocalRandom.current();
 		if (docsCount > 0) {
 			insertDoc(docsCount - 1, initId + 10, minValue, maxValue);
