@@ -2,7 +2,6 @@ package telran.probes.service;
 
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -21,25 +20,15 @@ public class ProbesServiceImpl implements ProbesService {
 	private HashMap<Long, Range> cache = new HashMap<>();
 	private Long[] sensorIds;
 
-	private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-
 	@Override
 	public ProbeData getProbeData() {
-		ProbeData probeData = null;
-		Range range = null;
-		long sensorId = 0;
 		dbCaching();
-		
-		try {
-			lock.readLock().lock();
-			sensorId = sensorIds[ThreadLocalRandom.current().nextInt(sensorIds.length)];
-			range = cache.get(sensorId);
-		} finally {
-			lock.readLock().unlock();
-			log.trace("creating probeData with id {} in range {}", sensorId, range);
-			probeData = getRandomProbeData(range, sensorId);
-			log.debug("probeData created: {}", probeData);
-		}
+
+		long sensorId = sensorIds[ThreadLocalRandom.current().nextInt(sensorIds.length)];
+		Range range = cache.get(sensorId);
+		log.trace("creating probeData with id {} in range {}", sensorId, range);
+		ProbeData probeData = getRandomProbeData(range, sensorId);
+		log.debug("probeData created: {}", probeData);
 		return probeData;
 	}
 
@@ -71,15 +60,10 @@ public class ProbesServiceImpl implements ProbesService {
 	}
 
 	private void dbCaching() {
-		try {
-			lock.writeLock().lock();
-			if (cache.size() < probesRepo.count()) {
-				log.warn("adding from db {} items to cache with {} items", probesRepo.count(), cache.size());
-				probesRepo.findAll().stream().forEach(e -> cache.put(e.getId(), e.getRange()));
-				sensorIds = cache.keySet().toArray(Long[]::new);
-			}
-		} finally {
-			lock.writeLock().unlock();
+		if (cache.size() < probesRepo.count()) {
+			log.warn("adding from db {} items to cache with {} items", probesRepo.count(), cache.size());
+			probesRepo.findAll().stream().forEach(e -> cache.put(e.getId(), e.getRange()));
+			sensorIds = cache.keySet().toArray(Long[]::new);
 		}
 	}
 
@@ -105,14 +89,9 @@ public class ProbesServiceImpl implements ProbesService {
 
 	@Override
 	public void updateCache(long id, Range range) {
-		try {
-			lock.writeLock().lock();
-			Range prevRange = cache.put(id, range);
-			sensorIds = cache.keySet().toArray(Long[]::new);
-			log.warn("Updated range for sensor {}, previous range {}, new range {}", id, prevRange, range);
-		} finally {
-			lock.writeLock().unlock();
-		}
+		Range prevRange = cache.put(id, range);
+		sensorIds = cache.keySet().toArray(Long[]::new);
+		log.warn("Updated range for sensor {}, previous range {}, new range {}", id, prevRange, range);
 	}
 
 }
