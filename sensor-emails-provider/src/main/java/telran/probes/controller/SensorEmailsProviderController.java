@@ -11,7 +11,7 @@ import telran.probes.service.SensorEmailsProviderService;
 public class SensorEmailsProviderController {
 	final SensorEmailsProviderService sensorEmailsProviderService;
 	
-	@GetMapping("${app.emails.provider.url}" + "/{sensorId}")
+	@GetMapping("${app.emails.provider.path}" + "/{sensorId}")
 	String[] getSensorEmails(@PathVariable("sensorId") long sensorId) {
 		String[] emails = sensorEmailsProviderService.getSensorEmails(sensorId);
 		log.debug("SensorEmailsProviderController: received emails {} for id {}", emails, sensorId);
