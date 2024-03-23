@@ -1,5 +1,6 @@
 package telran.probes;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import lombok.RequiredArgsConstructor;
 import telran.probes.dto.ProbeData;
+import telran.probes.dto.SensorUpdateData;
 import telran.probes.service.ProbesService;
 
 @SpringBootApplication
@@ -35,10 +37,20 @@ public class ProbesAppl {
 		return () -> probeGeneration();
 	}
 
-
 	private ProbeData probeGeneration() {
 		curCount++;
 		return probesService.getProbeData();
+	}
+	
+	@Bean
+	Consumer<SensorUpdateData> updateProbesConsumer() {
+		return updateData -> updateProcessing(updateData);
+	}
+
+	private void updateProcessing(SensorUpdateData updateData) {
+		if (updateData.range() != null) {
+			probesService.updateCache(updateData.id(), updateData.range());
+		}
 	}
 	
 
