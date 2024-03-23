@@ -19,5 +19,7 @@ public class ProbesConfig {
 	private Double lessProb;
 	@Value("${app.probes.random.number.sensors}")
 	private int nSensors;
+	@Value("${app.email.notifier.default.mails}")
+	private String[] defaultEmails;
 
 }
