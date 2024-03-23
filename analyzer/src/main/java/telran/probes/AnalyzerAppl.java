@@ -8,11 +8,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import telran.probes.dto.*;
 import telran.probes.service.RangeProviderClientService;
 
 @SpringBootApplication
 @RequiredArgsConstructor
+@Slf4j
 public class AnalyzerAppl {
 	final StreamBridge streamBridge;
 	final RangeProviderClientService clientService;
@@ -40,6 +42,7 @@ public class AnalyzerAppl {
 		if (deviationValue != 0) {
 			DeviationData deviation = new DeviationData(probeData.id(), deviationValue, probeValue,
 					probeData.timestamp());
+			log.warn("created deviation {}", deviation);
 			streamBridge.send(producerBindingName, deviation);
 		}
 	}
