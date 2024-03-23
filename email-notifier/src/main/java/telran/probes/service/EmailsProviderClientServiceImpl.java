@@ -21,14 +21,14 @@ public class EmailsProviderClientServiceImpl implements EmailsProviderClientServ
 		try {
 			emails = cache.computeIfAbsent(sensorId, (id) -> {
 				String[] response = serviceRequest(id);
-				log.debug("received from remote service range value: {}", Arrays.toString(response));
+				log.debug("received from remote service emails: {}", Arrays.toString(response));
 				return response;
 			});
-			log.debug("received range value: {}", Arrays.toString(emails));
+			log.debug("received emails value: {}", Arrays.toString(emails));
 		} catch (Exception e) {
 			log.error("error at service request: {}", e.getMessage());
-			emails = new String[] { serviceConfiguration.defaultEmail };
-			log.warn("default range value: {}", Arrays.toString(emails));
+			emails = serviceConfiguration.defaultEmails;
+			log.warn("default emails: {}", Arrays.toString(emails));
 		}
 		return emails;
 	}
