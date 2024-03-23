@@ -23,7 +23,7 @@ public class ProbesAppl {
 	public static void main(String[] args) throws Exception {
 		var ctx = SpringApplication.run(ProbesAppl.class, args);
 		ProbesAppl probesAppl = ctx.getBean(ProbesAppl.class);
-		while (curCount < probesAppl.POLL_COUNT) {
+		while (probesAppl.POLL_COUNT == 0 || curCount < probesAppl.POLL_COUNT) {
 			Thread.sleep(100);
 		}
 		ctx.close();
