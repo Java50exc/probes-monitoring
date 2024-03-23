@@ -74,6 +74,7 @@ public class ProbesServiceImpl implements ProbesService {
 		try {
 			lock.writeLock().lock();
 			if (cache.size() < probesRepo.count()) {
+				log.warn("adding from db {} items to cache with {} items", probesRepo.count(), cache.size());
 				probesRepo.findAll().stream().forEach(e -> cache.put(e.getId(), e.getRange()));
 				sensorIds = cache.keySet().toArray(Long[]::new);
 			}
@@ -106,8 +107,9 @@ public class ProbesServiceImpl implements ProbesService {
 	public void updateCache(long id, Range range) {
 		try {
 			lock.writeLock().lock();
-			cache.put(id, range);
+			Range prevRange = cache.put(id, range);
 			sensorIds = cache.keySet().toArray(Long[]::new);
+			log.warn("Updated range for sensor {}, previous range {}, new range {}", id, prevRange, range);
 		} finally {
 			lock.writeLock().unlock();
 		}
