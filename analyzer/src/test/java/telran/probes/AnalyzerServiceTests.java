@@ -17,6 +17,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.web.client.RestTemplate;
+
+import lombok.extern.slf4j.Slf4j;
 import telran.probes.service.RangeProviderClientService;
 
 @SpringBootTest
@@ -35,8 +37,8 @@ class AnalyzerServiceTests {
 	@Test
 	@Order(1)
 	void getRange_noCache_sendsRequest() {
-		ResponseEntity<Range> reponseEntity = new ResponseEntity<>(RANGE, HttpStatus.OK);
-		when(restTemplate.exchange(getUrl(SENSOR_ID), HttpMethod.GET, null, Range.class)).thenReturn(reponseEntity);
+		ResponseEntity<Range> responseEntity = new ResponseEntity<>(RANGE, HttpStatus.OK);
+		when(restTemplate.exchange(getUrl(SENSOR_ID), HttpMethod.GET, null, Range.class)).thenReturn(responseEntity);
 		assertEquals(RANGE, providerService.getRange(SENSOR_ID));
 	}
 
