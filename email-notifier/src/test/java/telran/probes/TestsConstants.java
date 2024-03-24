@@ -13,9 +13,10 @@ public interface TestsConstants {
 	String EMAIL3 = "email3@gmail.com";
 	String EMAIL4 = "email4@gmail.com";
 	String EMAIL5 = "email5@gmail.com";
-	String EMAIL_DEFAULT = "allanteone@icloud.com";
+	String EMAIL_DEFAULT1 = "allanteone@gmail.com";
+	String EMAIL_DEFAULT2 = "allanteone@icloud.com";
 	
 	String[] EMAILS = {EMAIL1, EMAIL2, EMAIL3};
 	String[] EMAILS_UPDATED = {EMAIL4, EMAIL5};
-	String[] EMAILS_DEFAULT = {EMAIL_DEFAULT};
+	String[] EMAILS_DEFAULT = {EMAIL_DEFAULT1, EMAIL_DEFAULT2};
 }
