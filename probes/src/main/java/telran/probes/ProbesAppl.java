@@ -17,31 +17,32 @@ import telran.probes.service.ProbesService;
 public class ProbesAppl {
 	final ProbesService probesService;
 	@Value("${app.probes.polling.count}")
-	private int POLL_COUNT;
+	private int pollCount;
+	@Value("${spring.integration.poller.fixedDelay}")
+	private int delay;
 	private volatile static int curCount = 0;
-	
-	
-	
+
 	public static void main(String[] args) throws Exception {
 		var ctx = SpringApplication.run(ProbesAppl.class, args);
 		ProbesAppl probesAppl = ctx.getBean(ProbesAppl.class);
-		while (probesAppl.POLL_COUNT == 0 || curCount < probesAppl.POLL_COUNT) {
-			Thread.sleep(100);
+		synchronized (probesAppl) {
+			while (probesAppl.pollCount == 0 || curCount < probesAppl.pollCount) {
+				probesAppl.wait(probesAppl.delay / 10);
+			}
 		}
 		ctx.close();
 	}
-	
-	
+
 	@Bean
 	Supplier<ProbeData> probesSupplier() {
 		return () -> probeGeneration();
 	}
 
-	private ProbeData probeGeneration() {
+	private synchronized ProbeData probeGeneration() {
 		curCount++;
 		return probesService.getProbeData();
 	}
-	
+
 	@Bean
 	Consumer<SensorUpdateData> updateProbesConsumer() {
 		return updateData -> updateProcessing(updateData);
@@ -52,6 +53,5 @@ public class ProbesAppl {
 			probesService.updateCache(updateData.id(), updateData.range());
 		}
 	}
-	
 
 }
