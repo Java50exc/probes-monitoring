@@ -23,5 +23,45 @@
     "name": "app.emails.provider.path",
     "type": "java.lang.String",
     "description": "A description for 'app.emails.provider.path'"
+  },
+  {
+    "name": "app.admin.console.port",
+    "type": "java.lang.String",
+    "description": "A description for 'app.admin.console.port'"
+  },
+  {
+    "name": "app.admin.console.email.url",
+    "type": "java.lang.String",
+    "description": "A description for 'app.admin.console.email.url'"
+  },
+  {
+    "name": "app.admin.console.range.url",
+    "type": "java.lang.String",
+    "description": "A description for 'app.admin.console.range.url'"
+  },
+  {
+    "name": "app.admin.console.host",
+    "type": "java.lang.String",
+    "description": "A description for 'app.admin.console.host'"
+  },
+  {
+    "name": "app.range.provider.port",
+    "type": "java.lang.String",
+    "description": "A description for 'app.range.provider.port'"
+  },
+  {
+    "name": "app.range.provider.path",
+    "type": "java.lang.String",
+    "description": "A description for 'app.range.provider.path'"
+  },
+  {
+    "name": "app.range.provider.host",
+    "type": "java.lang.String",
+    "description": "A description for 'app.range.provider.host'"
+  },
+  {
+    "name": "app.email.notifier.default.mails",
+    "type": "java.lang.String",
+    "description": "A description for 'app.email.notifier.default.mails'"
   }
 ]}

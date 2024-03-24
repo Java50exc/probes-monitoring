@@ -17,8 +17,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.web.client.RestTemplate;
-
-import lombok.extern.slf4j.Slf4j;
 import telran.probes.service.RangeProviderClientService;
 
 @SpringBootTest
