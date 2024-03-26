@@ -1,7 +1,7 @@
 package telran.probes.service;
 
-import java.util.Arrays;
-import java.util.HashMap;
+
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
@@ -9,10 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import telran.probes.config.ProbesConfig;
 import telran.probes.dto.*;
-import telran.probes.model.SensorEmailsDoc;
-import telran.probes.model.SensorRangeDoc;
-import telran.probes.repo.EmailsRepo;
-import telran.probes.repo.ProbesRepo;
+import telran.probes.model.*;
+import telran.probes.repo.*;
 
 @Service
 @RequiredArgsConstructor
@@ -71,7 +69,8 @@ public class ProbesServiceImpl implements ProbesService {
 	}
 
 	private void dbCaching() {
-		if (cache.size() < probesRepo.count()) {
+		long curDbSize = probesRepo.count();
+		if (cache.size() < curDbSize) {
 			log.warn("adding from db {} items to cache with {} items", probesRepo.count(), cache.size());
 			probesRepo.findAll().stream().forEach(e -> cache.put(e.getId(), e.getRange()));
 			sensorIds = cache.keySet().toArray(Long[]::new);

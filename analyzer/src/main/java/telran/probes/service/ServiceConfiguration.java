@@ -20,6 +20,7 @@ public class ServiceConfiguration {
 	@Value("${app.range.provider.path}")
 	String path;
 	
+	
 	@Bean
 	RestTemplate getRestTemplate() {
 		return new RestTemplate();
