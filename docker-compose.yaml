@@ -1,0 +1,117 @@
+version: "3"
+services:
+  config-server:
+    build: config-server
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+        reservations:
+          cpus: '0.3'
+          memory: 250M
+    ports:
+      - 8888:8888
+
+  sensor-emails-provider:
+    build: sensor-emails-provider
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+        reservations:
+          cpus: '0.3'
+          memory: 250M
+    environment:
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+    ports:
+      - 8282:8282
+
+  sensor-range-provider:
+    build: sensor-range-provider
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+        reservations:
+          cpus: '0.3'
+          memory: 250M
+    environment:
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+    ports:
+      - 8383:8383
+
+  admin-console:
+    build: admin-console
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+        reservations:
+          cpus: '0.3'
+          memory: 250M
+    environment:
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - STREAM_API_SECRET=${STREAM_API_SECRET}
+    ports:
+      - 8181:8181
+
+  analyzer:
+    build: analyzer
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+        reservations:
+          cpus: '0.3'
+          memory: 250M
+    environment:
+      - STREAM_API_SECRET=${STREAM_API_SECRET}
+      - RANGE_PROVIDER_HOST=sensor-range-provider
+
+  avg-populator:
+    build: avg-populator
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+        reservations:
+          cpus: '0.3'
+          memory: 250M
+    environment:
+      - STREAM_API_SECRET=${STREAM_API_SECRET}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+
+  avg-reducer:
+    build: avg-reducer
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+        reservations:
+          cpus: '0.3'
+          memory: 250M
+    environment:
+      - STREAM_API_SECRET=${STREAM_API_SECRET}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+
+  email-notifier:
+    build: email-notifier
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+        reservations:
+          cpus: '0.3'
+          memory: 250M
+    environment:
+      - STREAM_API_SECRET=${STREAM_API_SECRET}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - EMAILS_PROVIDER_HOST=sensor-emails-provider
