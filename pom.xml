@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>telran.probes</groupId>
 	<artifactId>probes-monitoring</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<name>probes-monitoring</name>
 	<description>Parent probes monitoring project</description>
 	<properties>
