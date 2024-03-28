@@ -8,6 +8,7 @@ import telran.probes.dto.AccountDto;
 @Document(collection = "accounts")
 @AllArgsConstructor
 @Getter
+@NoArgsConstructor
 public class AccountDoc {
 	@Id
 	String username;
@@ -16,5 +17,11 @@ public class AccountDoc {
 	
 	public AccountDto toDto() {
 		return new AccountDto(username, hashPassword, roles);
+	}
+	
+	public AccountDoc(AccountDto accountDto) {
+		username = accountDto.username();
+		hashPassword = accountDto.hashPassword();
+		roles = accountDto.roles();
 	}
 }

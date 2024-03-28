@@ -15,7 +15,7 @@ public class AccountProviderController {
 	final AccountProviderService providerService;
 	
 	@GetMapping("${app.account.provider.path}" + "/{email}")
-	AccountDto getAccount(@PathVariable("email") @Email(message = WRONG_EMAIL_FORMAT) @NotBlank(message = EMPTY_EMAIL) String email) {
+	AccountDto getAccount(@PathVariable("email") @Email(message = WRONG_EMAIL_FORMAT) String email) {
 		log.debug("AccountProviderController: getAccount: received {}", email);
 		return providerService.getAccount(email);
 	}
