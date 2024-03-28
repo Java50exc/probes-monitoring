@@ -44,5 +44,6 @@ public class AvgPopulatorTests {
 		assertEquals(1, probeDocs.size());
 		assertEquals(PROBE_DATA_DOC, probeDocs.get(0));	
 	}
+	
 
 }

@@ -84,8 +84,8 @@ public class TestDb {
 	static final SensorEmailsDoc EMAILS_DOC = new SensorEmailsDoc(ID, EMAILS);
 
 	public void createDb() {
-		mongoTemplate.remove(new Query(), RANGE_COLLECTION);
-		mongoTemplate.remove(new Query(), EMAIL_COLLECTION);
+		mongoTemplate.findAllAndRemove(new Query(), RANGE_COLLECTION);
+		mongoTemplate.findAllAndRemove(new Query(), EMAIL_COLLECTION);
 		mongoTemplate.insert(RANGE_DOC, RANGE_COLLECTION);
 		mongoTemplate.insert(EMAILS_DOC, EMAIL_COLLECTION);
 	}
