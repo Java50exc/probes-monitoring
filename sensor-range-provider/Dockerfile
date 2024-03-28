@@ -1,4 +1,6 @@
 FROM eclipse-temurin:17-jdk-alpine
-COPY ./target/sensor-range-provider-0.0.1.jar app.jar
+ARG VERSION
+COPY ./target/sensor-range-provider-${VERSION}.jar app.jar
 ENV CONFIG_SERVER_HOST=config-server
 ENTRYPOINT [ "java", "-jar", "app.jar" ]
+LABEL version=$VERSION

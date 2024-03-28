@@ -1,7 +1,17 @@
 version: "3"
+
+networks:
+  my-network:
+    driver: bridge
+    name: probes-network
+    
 services:
   config-server:
-    build: config-server
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+      args:
+        VERSION: "0.0.2"
     deploy:
       resources:
         limits:
@@ -14,7 +24,11 @@ services:
       - 8888:8888
 
   sensor-emails-provider:
-    build: sensor-emails-provider
+    build:
+      context: ./sensor-emails-provider
+      dockerfile: Dockerfile
+      args:
+        VERSION: "0.0.2"
     deploy:
       resources:
         limits:
@@ -29,7 +43,11 @@ services:
       - 8282:8282
 
   sensor-range-provider:
-    build: sensor-range-provider
+    build:
+      context: ./sensor-range-provider
+      dockerfile: Dockerfile
+      args:
+        VERSION: "0.0.2"
     deploy:
       resources:
         limits:
@@ -44,7 +62,11 @@ services:
       - 8383:8383
 
   admin-console:
-    build: admin-console
+    build:
+      context: ./admin-console
+      dockerfile: Dockerfile
+      args:
+        VERSION: "0.0.2"
     deploy:
       resources:
         limits:
@@ -60,7 +82,11 @@ services:
       - 8181:8181
 
   analyzer:
-    build: analyzer
+    build:
+      context: ./analyzer
+      dockerfile: Dockerfile
+      args:
+        VERSION: "0.0.2"
     deploy:
       resources:
         limits:
@@ -74,7 +100,11 @@ services:
       - RANGE_PROVIDER_HOST=sensor-range-provider
 
   avg-populator:
-    build: avg-populator
+    build:
+      context: ./avg-populator
+      dockerfile: Dockerfile
+      args:
+        VERSION: "0.0.2"
     deploy:
       resources:
         limits:
@@ -88,7 +118,11 @@ services:
       - MONGO_PASSWORD=${MONGO_PASSWORD}
 
   avg-reducer:
-    build: avg-reducer
+    build:
+      context: ./avg-reducer
+      dockerfile: Dockerfile
+      args:
+        VERSION: "0.0.2"
     deploy:
       resources:
         limits:
@@ -102,7 +136,11 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
 
   email-notifier:
-    build: email-notifier
+    build:
+      context: ./email-notifier
+      dockerfile: Dockerfile
+      args:
+        VERSION: "0.0.2"
     deploy:
       resources:
         limits:
@@ -115,3 +153,23 @@ services:
       - STREAM_API_SECRET=${STREAM_API_SECRET}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
       - EMAILS_PROVIDER_HOST=sensor-emails-provider
+      
+  account-provider:
+    build:
+      context: ./account-provider
+      dockerfile: Dockerfile
+      args:
+        VERSION: "0.0.2"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+        reservations:
+          cpus: '0.3'
+          memory: 250M
+    environment:
+      - ACCOUNT_PROVIDER_HOST=account-provider
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+    ports:
+      - 9292:9292

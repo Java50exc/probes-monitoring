@@ -1,4 +1,6 @@
 FROM eclipse-temurin:17-jdk-alpine
-COPY ./target/email-notifier-0.0.1.jar app.jar
+ARG VERSION
+COPY ./target/email-notifier-${VERSION}.jar app.jar
 ENV CONFIG_SERVER_HOST=config-server
 ENTRYPOINT [ "java", "-jar", "app.jar" ]
+LABEL version=$VERSION
