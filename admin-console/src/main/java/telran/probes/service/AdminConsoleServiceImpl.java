@@ -1,8 +1,6 @@
 package telran.probes.service;
 
 import static telran.probes.messages.ErrorMessages.*;
-
-import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.dao.DuplicateKeyException;
@@ -31,7 +29,6 @@ public class AdminConsoleServiceImpl implements AdminConsoleService {
 
 	@Override
 	public SensorRange addSensorRange(SensorRange sensorRange) {
-		rangeValidation(sensorRange.range());
 		long id = sensorRange.id();
 
 		try {
@@ -46,7 +43,6 @@ public class AdminConsoleServiceImpl implements AdminConsoleService {
 
 	@Override
 	public SensorEmails addSensorEmails(SensorEmails sensorEmails) {
-		emailsValidation(sensorEmails.mails());
 		long id = sensorEmails.id();
 
 		try {
@@ -61,7 +57,6 @@ public class AdminConsoleServiceImpl implements AdminConsoleService {
 
 	@Override
 	public SensorRange updateSensorRange(SensorRange sensorRange) {
-		rangeValidation(sensorRange.range());
 		long id = sensorRange.id();
 		RangeDoc doc = mongoTemplate.findAndModify(new Query(Criteria.where("id").is(id)),
 				new Update().set("range", sensorRange.range()), RangeDoc.class, RANGE_COLLECTION);
@@ -77,7 +72,6 @@ public class AdminConsoleServiceImpl implements AdminConsoleService {
 
 	@Override
 	public SensorEmails updateSensorEmails(SensorEmails sensorEmails) {
-		emailsValidation(sensorEmails.mails());
 		long id = sensorEmails.id();
 		SensorEmailsDoc doc = mongoTemplate.findAndModify(new Query(Criteria.where("id").is(id)),
 				new Update().set("emails", sensorEmails.mails()), SensorEmailsDoc.class, EMAIL_COLLECTION);
@@ -89,20 +83,6 @@ public class AdminConsoleServiceImpl implements AdminConsoleService {
 		streamBridge.send(producerBindingName, new SensorUpdateData(id, null, sensorEmails.mails()));
 		log.debug("Emails {} for sensor with id {} has been updated", sensorEmails.mails(), id);
 		return sensorEmails;
-	}
-	
-	private void rangeValidation(Range range) {
-		if (range.maxValue() < range.minValue()) {
-			throw new SensorRangeIllegalStateException(RANGE_MIN_GREATER_THEN_MAX);
-		}
-	}
-	
-	private void emailsValidation(String[] emails) { 
-       Arrays.stream(emails).forEach(e -> {
-    	   if (!e.matches(EMAIL_REGEX)) {
-    		   throw new SensorEmailsIllegalStateException(INVALID_EMAIL_FORMAT + e);
-    	   }
-       });
 	}
 
         
