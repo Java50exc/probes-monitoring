@@ -46,7 +46,7 @@ public class ProxyServiceImpl implements ProxyService {
 	
 	@PostConstruct
 	void logRoutingMap() {
-		log.debug("routing ,ap is {}", routingMap);
+		log.debug("routing map is {}", routingMap);
 	}
 
 }
