@@ -1,9 +1,5 @@
 version: "3"
 
-networks:
-  my-network:
-    driver: bridge
-    name: probes-network
     
 services:
   config-server:
@@ -20,8 +16,6 @@ services:
         reservations:
           cpus: '0.3'
           memory: 250M
-    ports:
-      - 8888:8888
 
   sensor-emails-provider:
     build:
@@ -39,8 +33,6 @@ services:
           memory: 250M
     environment:
       - MONGO_PASSWORD=${MONGO_PASSWORD}
-    ports:
-      - 8282:8282
 
   sensor-range-provider:
     build:
@@ -58,8 +50,6 @@ services:
           memory: 250M
     environment:
       - MONGO_PASSWORD=${MONGO_PASSWORD}
-    ports:
-      - 8383:8383
 
   admin-console:
     build:
@@ -78,8 +68,6 @@ services:
     environment:
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - STREAM_API_SECRET=${STREAM_API_SECRET}
-    ports:
-      - 8181:8181
 
   analyzer:
     build:
@@ -171,5 +159,25 @@ services:
     environment:
       - ACCOUNT_PROVIDER_HOST=account-provider
       - MONGO_PASSWORD=${MONGO_PASSWORD}
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+      args:
+        VERSION: "0.0.2"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+        reservations:
+          cpus: '0.3'
+          memory: 250M
+    environment:
+      - ACCOUNT_PROVIDER_HOST=account-provider
+      - ADMIN_CONSOLE_HOST=admin-console
+      - EMAILS_PROVIDER_HOST=sensor-emails-provider
+      - RANGE_PROVIDER_HOST=sensor-range-provider
     ports:
-      - 9292:9292
+      - 9595:9595
