@@ -25,6 +25,7 @@ public class SecurityConfiguration {
 		return http
 				.cors(c -> c.disable())
 				.csrf(c -> c.disable())
+				.sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
 				.httpBasic(Customizer.withDefaults())
 				.authorizeHttpRequests(c -> c
 						.requestMatchers("/sensor/emails/**").hasRole("ADMIN_NOTIFIER")
@@ -33,7 +34,7 @@ public class SecurityConfiguration {
 						.requestMatchers("/range/sensor/**").hasRole("USER_RANGE")
 						.requestMatchers("/accounts/**").hasRole("USER_ACCOUNT")
 						.anyRequest().permitAll())
-				.sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)).build();
+				.build();
 	}
 
 }
