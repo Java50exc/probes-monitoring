@@ -39,7 +39,8 @@
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream-binder-kafka</artifactId>
+			<artifactId>spring-cloud-stream-binder-kinesis</artifactId>
+			<version>2.2.0</version>
 		</dependency>
 
 		<dependency>
