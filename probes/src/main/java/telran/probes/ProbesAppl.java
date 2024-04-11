@@ -42,6 +42,8 @@ public class ProbesAppl {
 		curCount++;
 		return probesService.getProbeData();
 	}
+	
+
 
 	@Bean
 	Consumer<SensorUpdateData> updateProbesConsumer() {
