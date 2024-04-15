@@ -104,14 +104,13 @@
 	<modules>
 		<module>analyzer</module>
 		<module>sensor-range-provider</module>
-		<module>sensor-emails-provider</module>
 		<module>avg-populator</module>
 		<module>admin-console</module>
-		<module>email-notifier</module>
 		<module>avg-reducer</module>
 		<module>probes</module>
 		<module>config-server</module>
 		<module>account-provider</module>
 		<module>gateway</module>
+		<module>sns-notifier</module>
 	</modules>
 </project>
