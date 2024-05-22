@@ -13,7 +13,7 @@ import telran.probes.service.AccountProviderService;
 @Slf4j
 public class AccountProviderController {
 	final AccountProviderService providerService;
-	//grtehrhthrthr
+	//grtehrhthrthrhnhnrtn
 	
 	@GetMapping("${app.account.provider.path}" + "/{email}")
 	AccountDto getAccount(@PathVariable("email") @Email(message = WRONG_EMAIL_FORMAT) String email) {
