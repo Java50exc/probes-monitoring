@@ -21,6 +21,7 @@ public class AnalyzerAppl {
 	
 	@Value("${app.analyzer.producer.binding.name}")
 	String producerBindingName;
+	//
 
 	public static void main(String[] args) {
 		SpringApplication.run(AnalyzerAppl.class, args);
